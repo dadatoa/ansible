@@ -1,0 +1,2 @@
+[droplets-debian-docker]
+163.172.157.89 ansible_user=root

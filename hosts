@@ -1,0 +1,38 @@
+[bare]
+# Target local computer
+# localhost
+#
+# target local computer with ip
+# 127.0.0.1
+#
+# target computer on LAN with IP
+# 192.168.1.42
+#
+# target computer on LAN with IP
+# with specific username to connect
+arch-mbp ansible_host=192.168.1.42
+
+[nixos]
+192.168.64.6
+
+[ubuntu]
+192.168.64.7
+192.168.64.8
+
+[utm_debian]
+192.168.64.9 
+
+[apt:children]
+utm-ubuntu
+utm-debian
+#[local:children]
+#utm
+#bare
+
+[aws]
+ec2-13-229-143-159.ap-southeast-1.compute.amazonaws.com ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/dadabook-air.pem
+ec2-18-140-115-167.ap-southeast-1.compute.amazonaws.com ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/dadabook-air.pem
+
+[aws:vars]
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/dadabook-air.pem

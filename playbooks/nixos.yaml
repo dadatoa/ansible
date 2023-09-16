@@ -1,0 +1,12 @@
+---
+- hosts: nixos
+  become: true
+  tasks:
+    - name: copy configuration.nix to /etc/nixos
+      ansible.builtin.copy:
+        src: nixos/server-configuration.nix
+        dest: /etc/nixos/configuration.nix
+        mode: 0644
+
+    - name: rebuild system avec switch
+      ansible.builtin.shell: nixos-rebuild switch

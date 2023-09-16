@@ -1,0 +1,33 @@
+---
+- hosts: 192.168.64.8
+  become: true
+
+  roles:
+  - apt-upgrade
+
+  tasks:
+  - name: remove some problematic nvidia packages and files
+    script: nvidia_remove.sh
+    args:
+      executable: /bin/bash
+
+  - name: install dependencies
+    apt:
+      pkg:
+        - build-essential
+        - apt-utils
+
+  - name: Install cuda keyring
+    apt:
+      deb: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa/cuda-keyring_1.1-1_all.deb
+
+  - name: update packages
+    apt: 
+      update_cache: yes
+      upgrade: yes
+
+  - name: Install cuda toolkit
+    apt:
+      name: cuda
+      state: present
+

@@ -1,0 +1,13 @@
+---
+- hosts: aws
+  become: true
+  tasks:
+  
+  - name: prepare installation
+    ansible.builtin.script: cuda-hashcat-2204.sh
+
+  - name: "cuda installation"
+    apt:
+      name: "cuda"
+      state: present
+      update_cache: yes

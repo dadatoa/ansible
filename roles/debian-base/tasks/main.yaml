@@ -1,0 +1,20 @@
+---
+- name: Install some basic packages
+  apt:
+    pkg:
+      - openssh-server
+      - python3
+      - git
+      - curl
+      - sudo
+      - wget
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Reboot if required
+  ansible.builtin.reboot:
+  when: reboot_required_file.stat.exists
+
+- name: Remove dependencies no loner required after boot
+  ansible.builtin.apt:
+    autoremove: yes
