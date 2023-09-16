@@ -1,6 +1,6 @@
 # Mes playbooks Ansible
 
->[WARNING!]
+>[!WARNING!]\
 > WORK IN PROGRESS
 > Ce projet est en cours de création, à clôner en connaissance de cause!
 
