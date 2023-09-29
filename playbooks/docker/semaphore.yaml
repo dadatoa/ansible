@@ -32,7 +32,7 @@
     - name: launch semaphore container
       docker_container:
         name: semaphore
-        image: mysemaphore
+        image: "semaphoreui/semaphore:v2.9.30"
         ports:
           - 3000:3000
         networks:
