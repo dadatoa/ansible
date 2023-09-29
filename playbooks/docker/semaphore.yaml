@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: dockerlab
   tasks:
     - name: test network
       docker_network_info:
@@ -18,29 +18,29 @@
         networks:
           - name: "ansiblenet"
         env:
-          PUID: "502"
-          PGID: "20"
+          PUID: "1001"
+          PGID: "1001"
           TZ: "Asia/Bangkok"
           MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
           MYSQL_DATABASE: semaphore
           MYSQL_USER: semaphore
           MYSQL_PASSWORD: semaphore
         volumes:
-          - "~/projects/docker/mysql:/var/lib/mysql"
+          - "~/AppData/mysql:/var/lib/mysql"
         restart_policy: unless-stopped
 
     - name: launch semaphore container
       docker_container:
         name: semaphore
-        image: mysemaphore
+        image: semaphoreui/semaphore
         ports:
-          - 3000:3000
+          - 4000:3000
         networks:
           - name: "ansiblenet"
         restart_policy: unless-stopped
         env:
-          PUID: "502" 
-          PGID: "20"
+          PUID: "1001" 
+          PGID: "1001"
           TZ: "Asia/Bangkok"
           SEMAPHORE_DB_USER: "semaphore"
           SEMAPHORE_DB_PASS: "semaphore"
