@@ -1,0 +1,6 @@
+puid: "1001"
+pgid: "1001"
+timezone: "Asia/Bangkok"
+config_dir: /AppData
+data_dir: /mnt/bigboy
+vpn_network: transmissionvpn

@@ -1,0 +1,7 @@
+---
+- hosts: dockerlab
+  become: true
+  roles:
+    - sonarr-up
+    - radarr-up
+    - prowlarr-up

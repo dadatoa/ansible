@@ -1,4 +1,8 @@
 ---
+- name: remove conflicting file to avoid ansible crash
+  file:
+    state: absent
+    path: "/var/lib/dpkg/lock-frontend"
 - name: Install some basic packages
   apt:
     pkg:
@@ -8,6 +12,8 @@
       - curl
       - sudo
       - wget
+      - ufw
+      - neovim
     update_cache: yes
     cache_valid_time: 3600
 
@@ -15,6 +21,6 @@
   ansible.builtin.reboot:
   when: reboot_required_file.stat.exists
 
-- name: Remove dependencies no loner required after boot
+- name: Remove dependencies no longer required after boot
   ansible.builtin.apt:
     autoremove: yes

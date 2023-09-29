@@ -1,0 +1,10 @@
+---
+- name: stop prowlarr container
+  docker_container:
+    name: prowlarr
+    state: absent
+
+- name: remove prowlarr container
+  docker_container:
+    name: prowlarr
+    state: absent

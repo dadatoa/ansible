@@ -1,0 +1,10 @@
+---
+- name: stop radarr container
+  docker_container:
+    name: radarr
+    state: absent
+
+- name: remove radarr container
+  docker_container:
+    name: radarr
+    state: absent

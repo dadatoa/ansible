@@ -1,2 +1,6 @@
 [droplets-debian-docker]
-163.172.157.89 ansible_user=root
+# 163.172.157.89 ansible_user=root
+#
+[dockerlab]
+152.69.221.165 ansible_user=ubuntu
+

@@ -1,0 +1,17 @@
+---
+- name: create a sonarr container
+  docker_container:
+    name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    env:
+      PUID: "{{ puid }}" # var puid
+      PGID: "{{ pgid }}" # var pgid
+      TZ: "{{ timezone }}" # var timezone
+    volumes:
+      - "{{ config_dir }}/sonarr:/config" # var config_dir
+      - "{{ data_dir }}:/data" # vars data_dir
+    ports:
+      - 8989:8989
+    restart_policy: unless-stopped
+    networks:
+      - name: "{{ vpn_network }}" # var vpn_network

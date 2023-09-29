@@ -6,9 +6,54 @@
       community.general.pacman:
         update_cache: true
         upgrade: true
-    - name: install packages for hyprland
+    - name: upgrade yay
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+        executable: yay
+    - name: install some tools
+      community.general.pacman:
+        name:
+          - fish
+          - neovim
+          - docker
+          - docker-compose
+          - glusterfs
+          - kitty
+        state: present
+        update_cache: true
+    - name: install packages pacman for hyprland
       community.general.pacman:
         name:
           - hyprland
-          - eww
+          - waybar
+          - wofi
+          - dolphin
         state: present
+        update_cache: true
+    - name: install eww dependencies with pacman
+      community.general.pacman:
+        name:
+          - rustup
+          - gtk-layer-shell
+          - gtk3
+        state: present
+        update_cache: true
+    - name: determine available users
+      getent:
+        database: passwd
+    - name: add user john
+      ansible.builtin.user:
+        name: john
+        state: present
+    - name: get dotfiles for john
+      ansible.builtin.git:
+        repo: 'https://gitlab.com/dadato/configs.git'
+        dest: /home/john/configs
+    - name: give ownership to john for his new config files
+      ansible.builtin.file:
+        path: /home/john/configs
+        state: directory
+        recurse: yes
+        owner: john
+        group: john

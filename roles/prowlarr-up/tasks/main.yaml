@@ -1,0 +1,17 @@
+---
+- name: create a prowlarr container
+  docker_container:
+    name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
+    env:
+      PUID: "{{ puid }}" # var puid
+      PGID: "{{ pgid }}" # var pgid
+      TZ: "{{ timezone }}" # var timezone
+    volumes:
+      - "{{ config_dir }}/prowlarr:/config" # var config_dir
+      - "{{ data_dir }}:/data" # vars data_dir
+    ports:
+      - 9696:9696
+    restart_policy: unless-stopped
+    networks:
+      - name: "{{ vpn_network }}" # var vpn_network
