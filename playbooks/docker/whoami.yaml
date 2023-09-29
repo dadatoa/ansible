@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: dockerlab
   tasks:
     - name: deploy whoami container
       docker_container:
