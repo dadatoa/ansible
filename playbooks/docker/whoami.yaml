@@ -6,8 +6,8 @@
         name: whoami
         image: "traefik/whoami"
         command:
-          - port=2001
-          - name=iamfoo
+          - "--port=2001"
+          - "--name=iamfoo"
         ports:
           - "2001:2001"
 
