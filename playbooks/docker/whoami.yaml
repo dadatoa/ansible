@@ -1,6 +1,6 @@
 ---
 - hosts: dockerlab
-  vars_file:
+  vars_files:
     - inventory/group_vars/dockerlab.yaml
   tasks:
     - name: deploy whoami container
