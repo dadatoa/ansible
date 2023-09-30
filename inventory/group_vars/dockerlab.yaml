@@ -1,6 +1,24 @@
+# General
 puid: "1001"
 pgid: "1001"
 timezone: "Asia/Bangkok"
-config_dir: /AppData
-data_dir: /mnt/bigboy
-vpn_network: transmissionvpn
+config_root_dir: "~/AppData"
+data_dir: "/mnt/bigboy"
+state: started
+
+# playbooks specific 
+# servarr stack transmission + *arrs
+vpn_network: starrnet
+
+# container specific
+# config dir - appended to root_config_dir in role/playbooks files
+config_dir:
+  # homepage
+  homepage: homepage
+  # servarr stack
+  gluetun: gluetun
+  prowlarr: prowlarr
+  radarr: radarr
+  sonarr: sonarr
+  transmission: transmission
+ 

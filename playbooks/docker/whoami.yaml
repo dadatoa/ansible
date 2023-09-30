@@ -5,6 +5,7 @@
       docker_container:
         name: whoami
         image: "traefik/whoami"
+        state: "{{ state }}"
         command:
           - "--port=2001"
           - "--name=iamfoo"
