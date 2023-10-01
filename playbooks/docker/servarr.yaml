@@ -49,7 +49,7 @@
           TZ: "{{ timezone }}" # var timezone
         volumes:
           - "{{ config_root_dir }}/transmission:/config" # var config_dir
-          - "{{ data_dir }}/torrent:/data/torrent" # vars data_dir
+          - "{{ data_dir }}/torrent:/torrent" # vars data_dir
         # ports:
         #   - 51413:51413
         #   - 51413:51413/udp
