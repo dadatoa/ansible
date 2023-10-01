@@ -5,6 +5,8 @@
       docker_container:
         name: homepage
         image: "ghcr.io/benphelps/homepage:latest"
+        restart: true
+        restart_policy: "unless-stopped"
         ports:
           - 3000:3000
         volumes:
