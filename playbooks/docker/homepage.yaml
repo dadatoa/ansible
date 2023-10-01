@@ -1,15 +1,6 @@
 ---
 - hosts: dockerlab 
   tasks:
-    - name: test if homepage network exists
-      docker_network_info:
-        name: homenet
-      register: vpnnet_result
-
-    - name: create homepage network if not exists
-      docker_network:
-        name: homenet
-      when: vpnnet_result.exists == false
     
     - name: deploy homepage container
       docker_container:
@@ -27,5 +18,15 @@
           PGID: "{{ pgid }}" 
           TZ: "{{ timezone }}"
         state: "{{ state }}"
-        networks:
-          - name: homenet
+
+      - name: test network starrnet
+        docker_network_info:
+          name: "{{ vpn_network }}"
+        register: vpnnet_result
+
+      - name: connect to starrnet if exists
+        community.docker.docker_network:
+          name: "{{ vpn_network }}"
+          connected:
+            - homepage
+          appends: true
