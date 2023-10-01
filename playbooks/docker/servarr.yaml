@@ -1,0 +1,117 @@
+---
+- hosts: dockerlab
+  tasks:
+    - name: test network
+      docker_network_info:
+        name: "{{ vpn_network }}"
+      register: vpnnet_result
+
+    - name: create network if not exist
+      docker_network:
+        name: "{{ vpn_network }}"
+      when: vpnnet_result.exists == false
+
+    - name: start gluetun container
+      docker_container:
+        name: gluetun
+        image: qmcgaw/gluetun
+        capabilities:
+          - NET_ADMIN
+        env:
+          PUID: "{{ puid }}" # group var
+          PGID: "{{ pgid }}" # group var
+          TZ: "{{ timezone }}" # group var
+          VPN_SERVICE_PROVIDER: cyberghost
+          OPENVPN_USER: "{{ openvpn_user }}" # encrypted var
+          OPENVPN_PASSWORD: "{{ openvpn_password }}" # encrypted var
+          SERVER_COUNTRIES: Singapore
+        volumes:
+          - "{{ config_root_dir }}/gluetun:/gluetun" 
+      ports:
+        - 51413:51413
+        - 51413:51413/udp
+        - 9091:9091
+      state: "{{ state }}"
+      restart: true
+      restart_policy: unless-stopped
+      networks:
+        - name: "{{ vpn_network }}" # var vpn_network
+      devices:
+        - /dev/net/tun:/dev/net/tun
+
+    - name: start transmission container
+      docker_container:
+        name: transmission
+        image: lscr.io/linuxserver/transmission
+        env:
+          PUID: "{{ puid }}" # var puid
+          PGID: "{{ pgid }}" # var pgid
+          TZ: "{{ timezone }}" # var timezone
+        volumes:
+          - "{{ config_dir }}/{{ config_dir.transmission }}:/config" # var config_dir
+          - "{{ data_dir }}/torrent:/downloads" # vars data_dir
+        # ports:
+        #   - 51413:51413
+        #   - 51413:51413/udp
+        #   - 9091:9091
+        restart_policy: unless-stopped
+        restart: true
+        state: "{{ state }}"
+        network_mode: "container:gluetun"
+
+    - name: start prowlarr container
+      docker_container:
+        name: prowlarr
+        image: "lscr.io/linuxserver/prowlarr:latest"
+        env:
+          PUID: "{{ puid }}" # var puid
+          PGID: "{{ pgid }}" # var pgid
+          TZ: "{{ timezone }}" # var timezone
+        volumes:
+          - "{{ config_root_dir }}/{{ config_dir.prowlarr }}:/config" # var config_dir
+          - "{{ data_dir }}:/data" # vars data_dir
+        ports:
+          - 9696:9696
+        restart_policy: unless-stopped
+        restart: true
+        state: "{{ state }}"
+        networks:
+          - name: "{{ vpn_network }}" # var vpn_network
+
+    - name: start sonarr container
+      docker_container:
+        name: sonarr
+        image: "lscr.io/linuxserver/sonarr"
+        env:
+          PUID: "{{ puid }}" # var puid
+          PGID: "{{ pgid }}" # var pgid
+          TZ: "{{ timezone }}" # var timezone
+        volumes:
+          - "{{ config_root_dir }}/{{ config_dir.sonarr }}:/config" # var config_dir
+          - "{{ data_dir }}:/data" # vars data_dir
+        ports:
+          - 8989:8989
+        restart_policy: unless-stopped
+        restart: true
+        state: "{{ state }}"
+        networks:
+          - name: "{{ vpn_network }}" # var vpn_network
+
+    - name: start radarr container
+      docker_container:
+        name: radarr
+        image: "lscr.io/linuxserver/radarr"
+        env:
+          PUID: "{{ puid }}" # var puid
+          PGID: "{{ pgid }}" # var pgid
+          TZ: "{{ timezone }}" # var timezone
+        volumes:
+          - "{{ config_root_dir }}/{{ config_dir.radarr }}:/config" # var config_dir
+          - "{{ data_dir }}:/data" # vars data_dir
+        ports:
+          - 7878:7878
+        restart_policy: unless-stopped
+        restart: true
+        state: "{{ state }}"
+        networks:
+          - name: "{{ vpn_network }}" # var vpn_network
