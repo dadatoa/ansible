@@ -19,14 +19,14 @@
           TZ: "{{ timezone }}"
         state: "{{ state }}"
 
-      - name: test network starrnet
-        docker_network_info:
-          name: "{{ vpn_network }}"
-        register: vpnnet_result
+    - name: test network starrnet
+      docker_network_info:
+        name: "{{ vpn_network }}"
+      register: vpnnet_result
 
-      - name: connect to starrnet if exists
-        community.docker.docker_network:
-          name: "{{ vpn_network }}"
-          connected:
-            - homepage
-          appends: true
+    - name: connect to starrnet if exists
+      community.docker.docker_network:
+        name: "{{ vpn_network }}"
+        connected:
+          - homepage
+        appends: true
