@@ -48,8 +48,8 @@
           PGID: "{{ pgid }}" # var pgid
           TZ: "{{ timezone }}" # var timezone
         volumes:
-          - "{{ config_dir }}/{{ config_dir.transmission }}:/config" # var config_dir
-          - "{{ data_dir }}/torrent:/downloads" # vars data_dir
+          - "{{ config_root_dir }}/transmission:/config" # var config_dir
+          - "{{ data_dir }}/torrent:/torrent" # vars data_dir
         # ports:
         #   - 51413:51413
         #   - 51413:51413/udp
@@ -68,7 +68,7 @@
           PGID: "{{ pgid }}" # var pgid
           TZ: "{{ timezone }}" # var timezone
         volumes:
-          - "{{ config_root_dir }}/{{ config_dir.prowlarr }}:/config" # var config_dir
+          - "{{ config_root_dir }}/prowlarr:/config" # var config_dir
           - "{{ data_dir }}:/data" # vars data_dir
         ports:
           - 9696:9696
@@ -87,7 +87,7 @@
           PGID: "{{ pgid }}" # var pgid
           TZ: "{{ timezone }}" # var timezone
         volumes:
-          - "{{ config_root_dir }}/{{ config_dir.sonarr }}:/config" # var config_dir
+          - "{{ config_root_dir }}/sonarr:/config" # var config_dir
           - "{{ data_dir }}:/data" # vars data_dir
         ports:
           - 8989:8989
@@ -106,7 +106,7 @@
           PGID: "{{ pgid }}" # var pgid
           TZ: "{{ timezone }}" # var timezone
         volumes:
-          - "{{ config_root_dir }}/{{ config_dir.radarr }}:/config" # var config_dir
+          - "{{ config_root_dir }}/radarr:/config" # var config_dir
           - "{{ data_dir }}:/data" # vars data_dir
         ports:
           - 7878:7878
