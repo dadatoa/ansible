@@ -1,0 +1,17 @@
+---
+- hosts: dockerlab
+  tasks:
+    - name: deploy homepage container
+      docker_container:
+        name: homepage
+        image: "ghcr.io/benphelps/homepage:latest"
+        ports:
+          - 3000:3000
+        volumes:
+          - "{{ config_root_dir }}/{{ config_dir.homepage }}:/config"
+          - /var/run/docker.sock:/var/run/docker.soc # security issue - can we avoid?
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}" 
+          TZ: "{{ timezone }}"
+        state: "{{ state }}"
