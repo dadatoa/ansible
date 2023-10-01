@@ -14,7 +14,7 @@
     - name: start gluetun container
       docker_container:
         name: gluetun
-        image: qmcgaw/gluetun
+        image: "ghcr.io/qdm12/gluetun"
         capabilities:
           - NET_ADMIN
         env:
@@ -42,7 +42,7 @@
     - name: start transmission container
       docker_container:
         name: transmission
-        image: lscr.io/linuxserver/transmission
+        image: "lscr.io/linuxserver/transmission"
         env:
           PUID: "{{ puid }}" # var puid
           PGID: "{{ pgid }}" # var pgid
