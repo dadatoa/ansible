@@ -27,17 +27,17 @@
           SERVER_COUNTRIES: Singapore
         volumes:
           - "{{ config_root_dir }}/gluetun:/gluetun" 
-      ports:
-        - 51413:51413
-        - 51413:51413/udp
-        - 9091:9091
-      state: "{{ state }}"
-      restart: true
-      restart_policy: unless-stopped
-      networks:
-        - name: "{{ vpn_network }}" # var vpn_network
-      devices:
-        - /dev/net/tun:/dev/net/tun
+        ports:
+          - 51413:51413
+          - 51413:51413/udp
+          - 9091:9091
+        state: "{{ state }}"
+        restart: true
+        restart_policy: unless-stopped
+        networks:
+          - name: "{{ vpn_network }}" # var vpn_network
+        devices:
+          - /dev/net/tun:/dev/net/tun
 
     - name: start transmission container
       docker_container:
