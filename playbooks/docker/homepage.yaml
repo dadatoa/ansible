@@ -1,5 +1,5 @@
 ---
-- hosts: dockerlab
+- hosts: dockerlab 
   tasks:
     - name: deploy homepage container
       docker_container:
@@ -8,7 +8,7 @@
         ports:
           - 3000:3000
         volumes:
-          - "{{ config_root_dir }}/{{ config_dir.homepage }}:/config"
+          - "{{ config_root_dir }}/homepage:/config"
           - /var/run/docker.sock:/var/run/docker.soc # security issue - can we avoid?
         env:
           PUID: "{{ puid }}"
