@@ -1,6 +1,16 @@
 ---
 - hosts: dockerlab
   tasks:
+    - name: "test if dash.net alreadyexists"
+      docker_network_info:
+        name: "{{ dashnet }}"
+      register: dashnet_result
+
+    - name: "create dash.net network if not exists"
+      docker_network:
+        name: "{{ dashnet }}"
+      when: dashnet_result.exists == false
+
     - name: "deploy dash. container"
       docker_container:
         name: "dashdost"
@@ -11,6 +21,8 @@
           - 3001:3001
         volumes:
           - "/:/mnt/host:ro"
+        networks:
+          - "{{ dashnet }}"
         state: "{{ state }}"
         env:
           PUID: "{{ puid }}"

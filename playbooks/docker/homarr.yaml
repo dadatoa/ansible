@@ -37,3 +37,29 @@
           TZ: "{{ timezone }}"
         state: "{{ state }}"
         recreate: "{{ recreate }}"
+
+    - name: test if network starrnet exists
+      docker_network_info:
+        name: "{{ vpn_network }}"
+      register: vpnnet_result
+
+    - name: connect to starrnet if exists
+      community.docker.docker_network:
+        name: "{{ vpn_network }}"
+        connected:
+          - homarr
+        appends: true
+        when: vpn_result.exists
+
+    - name: test if network dash.net exists
+      docker_network_info:
+        name: "{{ dashnet }}"
+      register: dashnet_result
+
+    - name: connect to dashnet if exists
+      community.docker.docker_network:
+        name: "{{ dashnet }}"
+        connected:
+          - homarr
+        appends: true
+        when: dashnet_result.exists

@@ -30,3 +30,4 @@
         connected:
           - homepage
         appends: true
+        when: vpnnet_result.exists
