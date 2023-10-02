@@ -1,0 +1,36 @@
+---
+- hosts: dockerlab
+  tasks:
+    - name: create bind mounts directory first to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/homarr"
+        state: directory
+        mode: '755'
+
+    - name: create folder for bind mount subdir configs
+      path: "{{ config_root_dir }}/homarr/configs"
+      state: directory
+      mode: '755'
+
+    - name: create folder for bind mount subdir icons
+      path: "{{ config_root_dir }}/homarr/icons"
+      state: directory
+      mode: '755'
+
+    - name: deploy homarr dashboard
+      docker_container:
+        name: homarr
+        image: "ghcr.io/ajnart/homarr:latest"
+        restart: true
+        restart_policy: "unless-stopped"
+        ports:
+          - "7575:7575"
+        volumes:
+          - "{{ config_root_dir }}/homarr/configs":/app/data/configs
+          - "{{ config_root_dir }}/homarr/icons":/app/public/icons
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
+        state: "{{ state }}"
+         
