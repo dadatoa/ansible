@@ -8,14 +8,16 @@
         mode: '755'
 
     - name: create folder for bind mount subdir configs
-      path: "{{ config_root_dir }}/homarr/configs"
-      state: directory
-      mode: '755'
+      file:
+        path: "{{ config_root_dir }}/homarr/configs"
+        state: directory
+        mode: '755'
 
     - name: create folder for bind mount subdir icons
-      path: "{{ config_root_dir }}/homarr/icons"
-      state: directory
-      mode: '755'
+      file:  
+        path: "{{ config_root_dir }}/homarr/icons"
+        state: directory
+        mode: '755'
 
     - name: deploy homarr dashboard
       docker_container:
