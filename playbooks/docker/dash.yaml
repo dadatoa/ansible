@@ -22,7 +22,7 @@
         volumes:
           - "/:/mnt/host:ro"
         networks:
-          - "{{ dashnet }}"
+          - name: "{{ dashnet }}"
         state: "{{ state }}"
         env:
           PUID: "{{ puid }}"
