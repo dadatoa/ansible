@@ -49,7 +49,7 @@
         connected:
           - homarr
         appends: true
-        when: vpn_result.exists
+        when: vpn_result.exists == true
 
     - name: test if network dash.net exists
       docker_network_info:
@@ -62,4 +62,4 @@
         connected:
           - homarr
         appends: true
-        when: dashnet_result.exists
+        when: dashnet_result.exists == true
