@@ -30,10 +30,10 @@
         volumes:
           - "{{ config_root_dir }}/homarr/configs:/app/data/configs"
           - "{{ config_root_dir }}/homarr/icons:/app/public/icons"
-          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          - /var/run/docker.sock:/var/run/docker.sock
         env:
           PUID: "{{ puid }}"
           PGID: "{{ pgid }}"
           TZ: "{{ timezone }}"
         state: "{{ state }}"
-         
+        recreate: "{{ recreate }}"
