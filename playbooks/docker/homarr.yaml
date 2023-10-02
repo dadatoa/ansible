@@ -26,8 +26,8 @@
         ports:
           - "7575:7575"
         volumes:
-          - "{{ config_root_dir }}/homarr/configs":/app/data/configs
-          - "{{ config_root_dir }}/homarr/icons":/app/public/icons
+          - "{{ config_root_dir }}/homarr/configs:/app/data/configs"
+          - "{{ config_root_dir }}/homarr/icons:/app/public/icons"
         env:
           PUID: "{{ puid }}"
           PGID: "{{ pgid }}"
