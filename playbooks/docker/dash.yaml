@@ -13,7 +13,7 @@
 
     - name: "deploy dash. container"
       docker_container:
-        name: "dashdost"
+        name: "dashdot"
         image: "mauricenino/dashdot:latest"
         restart: true
         restart_policy: "unless-stopped"
