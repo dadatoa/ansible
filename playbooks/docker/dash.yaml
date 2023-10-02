@@ -1,0 +1,18 @@
+---
+- hosts: dockerlab
+  tasks:
+    - name: "deploy dash. container"
+      docker_container:
+        name: "dashdost"
+        image: "mauricenino/dashdot:latest"
+        restart: true
+        restart_policy: "unless-stopped"
+        ports:
+          - 3001:3001
+        volumes:
+          - "/:/mnt/host:ro"
+        state: "{{ state }}"
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
