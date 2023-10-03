@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: dockerlab
   
   tasks:
     - name: test network
