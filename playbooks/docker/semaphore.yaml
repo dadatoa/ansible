@@ -4,12 +4,12 @@
     - name: test network
       docker_network_info:
         name: "{{ ansible_network }}"
-      register: vpnnet_result
+      register: ansiblenet_result
 
     - name: create network if not exist
       docker_network:
         name: "{{ ansible_network }}"
-      when: vpnnet_result.exists == false
+      when: ansible_result.exists == false
     
     - name: launch mysql in container
       docker_container:
@@ -24,8 +24,8 @@
           TZ: "{{ timezone }}"
           MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
           MYSQL_DATABASE: semaphore
-          MYSQL_USER: semaphore
-          MYSQL_PASSWORD: semaphore
+          MYSQL_USER: "{{ mysqluser }}"
+          MYSQL_PASSWORD: "{{ mysqlpsswd }}"
         volumes:
           - "{{ config_root_dir }}/mysql:/var/lib/mysql"
         restart_policy: unless-stopped
@@ -45,14 +45,14 @@
           PUID: "{{ puid }}" 
           PGID: "{{ pgid }}"
           TZ: "{{ timezone }}"
-          SEMAPHORE_DB_USER: "semaphore"
-          SEMAPHORE_DB_PASS: "semaphore"
+          SEMAPHORE_DB_USER: "{{ mysqluser }}"
+          SEMAPHORE_DB_PASS: "{{ mysqlpsswd }}"
           SEMAPHORE_DB_HOST: "mysql" # for postgres, change to: postgres
           SEMAPHORE_DB_PORT: "3306" # change to 5432 for postgres
           SEMAPHORE_DB_DIALECT: "mysql" # for postgres, change to: postgres
           SEMAPHORE_DB: "semaphore"
           SEMAPHORE_PLAYBOOK_PATH: "/tmp/semaphore/"
-          SEMAPHORE_ADMIN_PASSWORD: "password"
+          SEMAPHORE_ADMIN_PASSWORD: "{{ semaphorepsswd }}"
           SEMAPHORE_ADMIN_NAME: "admin"
           SEMAPHORE_ADMIN_EMAIL: "admin@localhost"
           SEMAPHORE_ADMIN: "admin"
