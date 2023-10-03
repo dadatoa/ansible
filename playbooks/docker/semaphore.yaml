@@ -35,7 +35,7 @@
         name: "semaphore"
         image: "semaphoreui/semaphore:v2.9.30"
         ports:
-          - "3001:3000"
+          - "3002:3000"
         networks:
           - name: "{{ ansible_network }}"
         restart_policy: unless-stopped
