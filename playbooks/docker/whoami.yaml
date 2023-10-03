@@ -2,7 +2,7 @@
 - hosts: dockerlab
 
   vars_files:
-    - "{{ vars-dir }}"/default_vars.yaml
+    - {{ vars-dir }}/default_vars.yaml
 
   tasks:
     - name: deploy whoami container
