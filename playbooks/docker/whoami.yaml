@@ -1,15 +1,14 @@
 ---
 - hosts: dockerlab
 
-  vars_files:
-    - "/home/semaphore/default_vars.yaml"
-
   tasks:
     - name: deploy whoami container
       docker_container:
         name: whoami
         image: "traefik/whoami"
         state: "{{ state }}"
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         command:
           - "--port=2001"
           - "--name=iamfoo"

@@ -6,13 +6,13 @@
   tasks:
     - name: test network
       docker_network_info:
-        name: vpn_net
-      register: vpnnet_result
+        name: ansiblenet
+      register: ansiblenet_result
 
     - name: create network if not exist
       docker_network:
-        name: vpn_net
-      when: vpnnet_result.exists == false
+        name: ansiblenet
+      when: ansiblenet_result.exists == false
     
     - name: launch mysql in container
       docker_container:
@@ -20,7 +20,7 @@
         image: "mysql:8.0"
         hostname: "mysql"
         networks:
-          - name: vpn_net
+          - name: ansiblenet
         env:
           PUID: "502"
           PGID: "20"
@@ -32,6 +32,8 @@
         volumes:
           - "~/projects/docker/mysql:/var/lib/mysql"
         restart_policy: unless-stopped
+        restart: true
+        recreate: true
 
     - name: "launch semaphore container"
       docker_container:
@@ -40,8 +42,10 @@
         ports:
           - "3000:3000"
         networks:
-          - name: vpn_net
+          - name: ansiblenet
         restart_policy: unless-stopped
+        restart: true
+        recreate: true
         volumes:
           - "~/projects/docker/semaphore:/home/semaphore"
         env:

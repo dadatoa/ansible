@@ -1,7 +1,5 @@
 ---
 - hosts: dockerlab
-  vars_files:
-    - "{{ default_vars }}"
   tasks:
     - name: "test if dash.net alreadyexists"
       docker_network_info:
@@ -26,6 +24,7 @@
         networks:
           - name: "{{ dash_network }}"
         state: "{{ state }}"
+        recreate: "{{ recreate }}"
         env:
           PUID: "{{ puid }}"
           PGID: "{{ pgid }}"

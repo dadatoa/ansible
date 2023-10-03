@@ -1,9 +1,5 @@
 - hosts: localhost
   
-  vars_files:
-    - default_vars: "variables/docker-vars.yaml"
-
-
   tasks:
     - name: test network
       docker_network_info:
