@@ -30,12 +30,12 @@
           - "{{ config_root_dir }}/mysql:/var/lib/mysql"
         restart_policy: unless-stopped
 
-    - name: launch semaphore container
+    - name: "launch semaphore container"
       docker_container:
-        name: semaphore
+        name: "semaphore"
         image: "semaphoreui/semaphore:v2.9.30"
         ports:
-          - 3000:3000
+          - "3001:3000"
         networks:
           - name: "{{ ansible_network }}"
         restart_policy: unless-stopped
