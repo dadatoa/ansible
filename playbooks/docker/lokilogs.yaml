@@ -28,8 +28,8 @@
           TZ: "{{ timezone }}"
         state: "{{ state }}"
         recreate: "{{ recreate }}"
-        restart: true
-        restart_policy: unless_stopped
+        restart: "{{ restart }}"
+        restart_policy: unless-stopped
         volumes:
           - "{{ config_root_dir }}/promtail:/etc/promtail"
           - "/var/log:/var/log"
