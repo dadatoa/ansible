@@ -1,0 +1,23 @@
+--- 
+- hosts: dockerlab
+
+    - name: deploy promtail for pushing logs
+      docker_container:
+        name: promtail
+        image: "grafana/promtail:2.9.1"
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
+        state: "{{ state }}"
+        recreate: "{{ recreate }}"
+        restart: true
+        restart_policy: unless_stopped
+        volumes:
+          - "{{ config_root_dir }}/promtail:/etc/promtail"
+          - "/var/log:/var/log"
+        command: 
+          - "-config.file=/etc/promtail/promtail-config.yaml"
+        networks:
+          - name: "{{ loki_network }}"
+
