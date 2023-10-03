@@ -1,7 +1,10 @@
 --- 
 - hosts: dockerlab
-  tasks:
+  
+  vars_files:
+    - "{{ default_vars }}"
 
+  tasks:
     - name: test if loki networks exists
       docker_network_info:
         name: "{{ loki_network }}"
@@ -12,6 +15,12 @@
         name: "{{ loki_network }}"
       when: loki_result.exists == false
     
+    - name: create promtail folder to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/promtail"
+        state: directory
+        mode: '755'
+
     - name: deploy promtail for pushing logs
       docker_container:
         name: promtail

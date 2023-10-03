@@ -1,5 +1,7 @@
 ---
 - hosts: dockerlab
+  vars_files:
+    - "{{ default_vars }}"
   tasks:
     - name: create bind mounts directory first to avoid conflicting permissions
       file:
@@ -53,12 +55,12 @@
 
     - name: test if network dash.net exists
       docker_network_info:
-        name: "{{ dashnet }}"
+        name: "{{ dash_network }}"
       register: dashnet_result
 
     - name: connect to dashnet if exists
       community.docker.docker_network:
-        name: "{{ dashnet }}"
+        name: "{{ dash_network }}"
         connected:
           - homarr
         appends: true

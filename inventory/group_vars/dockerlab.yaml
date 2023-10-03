@@ -1,24 +1,2 @@
-# General
-puid: "1001"
-pgid: "1001"
-timezone: "Asia/Bangkok"
-config_root_dir: "~/AppData"
-data_dir: "/mnt/bigboy"
-state: started
-
-# playbooks specific 
-# servarr stack transmission + *arrs
-vpn_network: starrnet
-
-# container specific
-# config dir - appended to root_config_dir in role/playbooks files
-config_dir:
-  # homepage
-  homepage: homepage
-  # servarr stack
-  gluetun: gluetun
-  prowlarr: prowlarr
-  radarr: radarr
-  sonarr: sonarr
-  transmission: transmission
- 
+vars_dir: "variables"
+default_vars: "variables/docker-vars.yaml"

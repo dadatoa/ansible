@@ -1,7 +1,9 @@
 ---
 - hosts: dockerlab 
-  tasks:
-    
+  vars_files:
+    - "{{ default_vars }}"
+
+  tasks:    
     - name: deploy homepage container
       docker_container:
         name: homepage

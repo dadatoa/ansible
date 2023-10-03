@@ -1,5 +1,9 @@
 ---
 - hosts: dockerlab
+  
+  vars_files:
+    - "{{ default_vars }}"
+
   tasks:
     - name: test network
       docker_network_info:

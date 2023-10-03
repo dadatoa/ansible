@@ -1,13 +1,17 @@
 - hosts: localhost
+  
+  vars_files:
+    - "{{ default_vars }}"
+
   tasks:
     - name: test network
       docker_network_info:
-        name: "ansiblenet"
+        name: "{{ ansible_network }}"
       register: vpnnet_result
 
     - name: create network if not exist
       docker_network:
-        name: "ansiblenet"
+        name: "{{ ansible_network }}"
       when: vpnnet_result.exists == false
     
     - name: launch mysql in container
@@ -16,17 +20,17 @@
         image: "mysql:8.0"
         hostname: "mysql"
         networks:
-          - name: "ansiblenet"
+          - name: "{{ ansible_network }}"
         env:
-          PUID: "502"
-          PGID: "20"
-          TZ: "Asia/Bangkok"
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
           MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
           MYSQL_DATABASE: semaphore
           MYSQL_USER: semaphore
           MYSQL_PASSWORD: semaphore
         volumes:
-          - "~/projects/docker/mysql:/var/lib/mysql"
+          - "{{ config_root_dir }}/mysql:/var/lib/mysql"
         restart_policy: unless-stopped
 
     - name: launch semaphore container
@@ -36,14 +40,14 @@
         ports:
           - 3000:3000
         networks:
-          - name: "ansiblenet"
+          - name: "{{ ansible_network }}"
         restart_policy: unless-stopped
         volumes:
-          - "~/projects/docker/semaphore:/home/semaphore"
+          - "{{ config_root_dir }}/semaphore:/home/semaphore"
         env:
-          PUID: "502" 
-          PGID: "20"
-          TZ: "Asia/Bangkok"
+          PUID: "{{ puid }}" 
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
           SEMAPHORE_DB_USER: "semaphore"
           SEMAPHORE_DB_PASS: "semaphore"
           SEMAPHORE_DB_HOST: "mysql" # for postgres, change to: postgres
