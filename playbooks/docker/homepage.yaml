@@ -6,7 +6,8 @@
       docker_container:
         name: homepage
         image: "ghcr.io/benphelps/homepage:latest"
-        restart: true
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         restart_policy: "unless-stopped"
         ports:
           - 3000:3000
@@ -30,4 +31,4 @@
         connected:
           - homepage
         appends: true
-        when: vpnnet_result.exists
+      when: vpnnet_result.exists
