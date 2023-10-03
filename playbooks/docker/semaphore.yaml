@@ -2,6 +2,7 @@
   
   vars_files:
     - "{{ default_vars }}"
+    - "{{ vars_dir }}/semaphore.yaml"
 
   tasks:
     - name: test network
@@ -59,5 +60,5 @@
           SEMAPHORE_ADMIN_NAME: "admin"
           SEMAPHORE_ADMIN_EMAIL: "admin@localhost"
           SEMAPHORE_ADMIN: "admin"
-          SEMAPHORE_ACCESS_KEY_ENCRYPTION: "6Z1AT+4bhFGo+KvrhaWMZ3i6i0sawACMWVsNlih5Vc8=" ## à planquer
+          SEMAPHORE_ACCESS_KEY_ENCRYPTION: "{{ semaphore-key }}"
 

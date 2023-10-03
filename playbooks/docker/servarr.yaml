@@ -3,6 +3,7 @@
   
   vars_files:
     - "{{ default_vars }}"
+    - "{{ vars_dir }}/openvpn.yaml"
 
   tasks:
     - name: test network
