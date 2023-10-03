@@ -9,7 +9,7 @@
     - name: create network if not exist
       docker_network:
         name: "{{ ansible_network }}"
-      when: ansible_result.exists == false
+      when: ansiblenet_result.exists == false
     
     - name: launch mysql in container
       docker_container:
