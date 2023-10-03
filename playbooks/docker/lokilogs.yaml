@@ -1,6 +1,17 @@
 --- 
 - hosts: dockerlab
+  tasks:
 
+    - name: test if loki networks exists
+      docker_network_info:
+        name: "{{ loki_network }}"
+      register: loki_result
+
+    - name: create loki network if not exist
+      docker_network:
+        name: "{{ loki_network }}"
+      when: loki_result.exists == false
+    
     - name: deploy promtail for pushing logs
       docker_container:
         name: promtail
