@@ -2,7 +2,7 @@
 - hosts: dockerlab
 
   vars_files:
-    - "{{ default_vars }}"
+    - "/home/semaphore/default_vars.yaml"
 
   tasks:
     - name: deploy whoami container
