@@ -1,9 +1,6 @@
 ansible_network: "ansiblenet"
-puid: "502"
-pgid: "20"
+puid: "1001"
+pgid: "1001"
 timezone: "Asia/Bangkok"
-mysqlpsswd: "toto"
-mysqluser: "tutu"
-config_root_dir: "~/projects/docker/mysql"
-semaphorepsswd: "tata"
-semaphorekey: "kekekekek"
+config_root_dir: "~/AppData"
+

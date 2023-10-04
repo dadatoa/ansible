@@ -1,0 +1,12 @@
+- hosts: aws
+  become: yes
+  tasks:
+  - name: add docker user to system named mobydock
+    user:
+      name: mobydock
+      groups: docker
+      shell: /bin/bash
+      append: yes
+      generate_ssh_key: yes
+      ssh_key_type: "ed25519"
+      ssh_key_file: .ssh/git

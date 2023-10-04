@@ -1,4 +1,4 @@
-- hosts: dockerlab
+- hosts: controllers
   
   tasks:
     - name: test network
@@ -10,7 +10,25 @@
       docker_network:
         name: "{{ ansible_network }}"
       when: ansiblenet_result.exists == false
-    
+
+    - name: create folder config_root_dir if not exists
+      file:  
+        path: "{{ config_root_dir }}"
+        state: directory
+        mode: '755'
+
+    - name: create bind mounts directory mysql first to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/mysql"
+        state: directory
+        mode: '755'
+
+    - name: create bind mounts directory semaphore to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/semaphore"
+        state: directory
+        mode: '755'
+
     - name: launch mysql in container
       docker_container:
         name: "mysql"

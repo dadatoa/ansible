@@ -1,0 +1,22 @@
+controllers:
+  hosts:
+    amaz-1.taila7299.ts.net:
+      ansible_ssh_key: "~/.ssh/dadabook-air.pem"
+
+players:
+  hosts:
+    oracle-1.taila7299.ts.net:
+      ansible_ssh_key: "~/.ssh/ansible"
+
+storage:
+  hosts: 
+    oracle-1.taila7299.ts.net:
+      ansible_ssh_key: "~/.ssh/ansible"
+
+dockerlab:
+  children:
+    controllers:
+    players:
+    storage:
+  vars:
+    ansible_user: mobydock
