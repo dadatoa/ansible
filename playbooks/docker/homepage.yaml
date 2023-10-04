@@ -1,7 +1,19 @@
 ---
 - hosts: dockerlab 
 
-  tasks:    
+  tasks:
+    - name: create folder config_root_dir if not exists
+      file:  
+        path: "{{ config_root_dir }}"
+        state: directory
+        mode: '755'
+
+    - name: create bind mounts directory homepage first to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/homepage"
+        state: directory
+        mode: '755'
+
     - name: deploy homepage container
       docker_container:
         name: homepage
@@ -10,7 +22,7 @@
         recreate: "{{ recreate }}"
         restart_policy: "unless-stopped"
         ports:
-          - 3000:3000
+          - 80:3000
         volumes:
           - "{{ config_root_dir }}/homepage:/config"
           - /var/run/docker.sock:/var/run/docker.soc # security issue - can we avoid?
