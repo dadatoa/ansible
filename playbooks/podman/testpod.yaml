@@ -1,4 +1,4 @@
-- hosts: players
+- hosts: dockerlab
   tasks:
     - name: start pod pod1
       containers.podman.podamn_pod:
