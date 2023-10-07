@@ -5,5 +5,5 @@
         name: rclonesync
         image: rclone/rclone
         volumes:
-          - "{{ config_root_dir }}/rclone:/root/.config/rclone"
-        command: sync /mnt/bigboy/media onedrive:media
+          - "{{ config_root_dir }}/rclone:/config"
+        command: rclone sync /mnt/bigboy/media onedrive:media
