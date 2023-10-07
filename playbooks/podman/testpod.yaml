@@ -1,8 +1,0 @@
-- hosts: dockerlab
-  tasks:
-    - name: start pod pod1
-      containers.podman.podman_pod:
-        name: pod1
-        state: started
-        ports:
-          - "4444:5555"
