@@ -25,7 +25,8 @@
           - name: "{{ dash_network }}"
         state: "{{ state }}"
         recreate: "{{ recreate }}"
-        env:
+        environment:
           PUID: "{{ puid }}"
           PGID: "{{ pgid }}"
           TZ: "{{ timezone }}"
+          DASHDOT_USE_NETWORK_INTERFACE: "ens3"
