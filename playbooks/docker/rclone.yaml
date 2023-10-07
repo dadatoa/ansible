@@ -4,6 +4,10 @@
       docker_container:
         name: rclonesync
         image: rclone/rclone
+        env:
+          PUID: "{{ puid }}" # var puid
+          PGID: "{{ pgid }}" # var pgid
+          TZ: "{{ timezone }}" # var timezone
         volumes:
           - "{{ config_root_dir }}/rclone:/config"
         command: rclone sync /mnt/bigboy/media onedrive:media
