@@ -10,4 +10,4 @@
           TZ: "{{ timezone }}" # var timezone
         volumes:
           - "{{ config_root_dir }}/rclone:/config/rclone"
-        command: rclone sync /mnt/bigboy/media onedrive:media
+        command: sync /mnt/bigboy/media onedrive:media
