@@ -25,7 +25,7 @@
           - name: "{{ dash_network }}"
         state: "{{ state }}"
         recreate: "{{ recreate }}"
-        environment:
+        env:
           PUID: "{{ puid }}"
           PGID: "{{ pgid }}"
           TZ: "{{ timezone }}"
