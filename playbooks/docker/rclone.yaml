@@ -1,6 +1,6 @@
 - hosts: dockerlab
   tasks:
-    - name: start sync between one drive and local storage with rclone
+    - name: "start sync from {{ source }} to {{ destination }} with rclone"
       docker_container:
         name: rclonesync
         image: rclone/rclone
@@ -12,4 +12,4 @@
         volumes:
           - "{{ config_root_dir }}/rclone:/config/rclone"
           - "{{ data_dir }}/media:/data"
-        command: sync /data onedrive:media
+        command: "{{ cmd }} {{ source }} {{ destination }}"
