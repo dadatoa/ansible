@@ -1,22 +1,23 @@
 controllers:
   hosts:
-    amaz-1.taila7299.ts.net:
-      ansible_ssh_key: "~/.ssh/dadabook-air.pem"
+    # amaz-1.taila7299.ts.net:
+    #  ansible_ssh_key: "~/.ssh/dadabook-air.pem"
 
 players:
   hosts:
     oracle-1.taila7299.ts.net:
       ansible_ssh_key: "~/.ssh/ansible"
+      ansible_user: ubuntu
 
 storage:
   hosts: 
     oracle-1.taila7299.ts.net:
       ansible_ssh_key: "~/.ssh/ansible"
+      ansible_user: ubuntu
 
 dockerlab:
   children:
     controllers:
     players:
     storage:
-  vars:
-    ansible_user: mobydock
+
