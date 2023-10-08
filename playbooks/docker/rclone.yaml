@@ -11,5 +11,5 @@
           TZ: "{{ timezone }}" # var timezone
         volumes:
           - "{{ config_root_dir }}/rclone:/config/rclone"
-          - "{{ data_dir }}/media:/data"
+          - "{{ data_dir }}:/data"
         command: "{{ cmd }} {{ source }} {{ destination }}"
