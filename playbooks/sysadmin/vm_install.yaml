@@ -36,6 +36,7 @@
             - git
             - curl
             - sudo
+            - rclone
             - wget
             - ufw
             - neovim
