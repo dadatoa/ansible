@@ -15,4 +15,4 @@
         volumes:
           - "{{ config_root_dir }}/rclone:/config/rclone"
           - "{{ data_dir }}:/data"
-        command: "{{ cmd }} {{ source }} {{ destiantion}}"
+        command: "{{ cmd }} {{ source }} {{ destination}}"
