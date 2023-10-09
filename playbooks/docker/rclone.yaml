@@ -7,7 +7,6 @@
         recreate: "{{ recreate }}"
         restart: "{{ restart }}"
         state: "{{ state }}"
-        restart_policy: unless_stopped
         env: 
           TZ: "{{ timezone }}"
           PUID: "{{ puid }}"
