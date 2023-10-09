@@ -1,6 +1,6 @@
 - hosts: dockerlab
   tasks:
-    - name: "lauch sync between {{ source }} and {{ destiantion }}"
+    - name: "lauch rclone webui"
       docker_container:
         name: rclone
         image: "rclone/rclone"

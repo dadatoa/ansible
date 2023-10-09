@@ -1,0 +1,7 @@
+- hosts: dockerlab
+  tasks:
+    - name: Run a simple command (command)
+      community.docker.docker_container_exec:
+        container: rclone
+        command: rclone sync scaleway:dadatoa-multimedia/films /data/scw
+
