@@ -32,11 +32,16 @@
           TZ: "{{ timezone }}"
         state: "{{ state }}"
 
+    - name: Get infos on container
+      community.docker.docker_container_info:
+        name: homepage
+      register: homepage_result
+
     - name: test network starrnet
       docker_network_info:
         name: "{{ vpn_network }}"
       register: vpnnet_result
-      when: "{{ state }} == started"
+      when: homepage_result.exists
 
     - name: connect to starrnet if exists
       community.docker.docker_network:
