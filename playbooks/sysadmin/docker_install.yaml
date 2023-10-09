@@ -1,0 +1,51 @@
+- hosts: dockerlab
+  become: true
+  tasks:
+    - name: Uninstall conflicting packages for docker and previous docker
+      ansible.builtin.apt:
+        pkg:
+        - docker.io
+        - docker-doc
+        - docker-compose
+        - podman-docker
+        - containerd
+        - runc
+        - docker-ce
+        - docker-ce-cli 
+        - containerd.io 
+        - docker-buildx-plugin 
+        - docker-compose-plugin 
+        - docker-ce-rootless-extras
+        state: absent
+
+    - name: Remove docker directory from previous install
+      ansible.builtin.file:
+        path: /var/lib/docker
+        state: absent
+
+    - name: Remove old containers
+      ansible.builtin.file:
+        path: /var/lib/containerd
+        state: absent
+
+    - name: Install pre-required packages
+      ansible.builtin.apt:
+        pkg:
+        - ca-certificates
+        - curl
+        - gnupg
+        state: present
+
+    - name: download docker convenient script
+      ansible.builtin.get_url:
+        url: https://get.docker.com
+        dest: /root/get-docker.sh
+        mode: '0755'
+    
+    - name: install docker with script
+      ansible.builtin.shell: sh /root/get-docker.sh
+    
+    - name: remove convenient script after install
+      file:
+        state: absent
+        path: "/root/get-docker.sh"

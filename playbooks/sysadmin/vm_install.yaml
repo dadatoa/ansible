@@ -6,8 +6,8 @@
       block:
         - name: remove conflicting file to avoid ansible crash
           file:
-          state: absent
-          path: "/var/lib/dpkg/lock-frontend"
+            state: absent
+            path: "/var/lib/dpkg/lock-frontend"
   
         - name: run apt update and apt upgrade
           apt:
