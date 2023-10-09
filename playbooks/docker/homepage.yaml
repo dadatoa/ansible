@@ -50,3 +50,4 @@
           - homepage
         appends: true
       when: vpnnet_result.exists
+      ignore_errors: true
