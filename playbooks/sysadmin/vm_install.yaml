@@ -24,7 +24,7 @@
           ansible.builtin.reboot:
           when: reboot_required_file.stat.exists
 
-        - name: Remove dependencies no loner required after boot
+        - name: Remove dependencies no longer required after boot
           ansible.builtin.apt:
             autoremove: yes
   
@@ -45,6 +45,13 @@
             update_cache: yes
             cache_valid_time: 3600
 
+        - name: test if docker is already installed
+          ansible.builtin.package:
+            name: docker
+            state: present
+          check_mode: true
+          register: docker_check
+
         - name: Uninstall conflicting packages for docker and previous docker
           ansible.builtin.apt:
             pkg:
@@ -61,16 +68,19 @@
             - docker-compose-plugin 
             - docker-ce-rootless-extras
             state: absent
+          when: docker_check is failed
 
         - name: Remove docker directory from previous install
           ansible.builtin.file:
             path: /var/lib/docker
             state: absent
+          when: docker_check is failed
 
         - name: Remove old containers
           ansible.builtin.file:
             path: /var/lib/containerd
             state: absent
+          when: docker_check is failed
 
         - name: Install pre-required packages
           ansible.builtin.apt:
@@ -88,11 +98,19 @@
     
         - name: install docker with script
           ansible.builtin.shell: sh /root/get-docker.sh
+          when: docker_check is failed
     
         - name: remove convenient script after install
           file:
             state: absent
             path: "/root/get-docker.sh"
+
+        - name: test if tailscale is already installed
+          ansible.builtin.package:
+            name: tailscale
+            state: present
+          check_mode: true
+          register: tailscale_check
 
         - name: download tailscale install script
           get_url:
@@ -102,6 +120,7 @@
   
         - name: execute tailscale install script
           shell: sh /root/tailscale.sh
+          when: tailscale_check is failed
     
         - name: remove tailscale install script
           file:

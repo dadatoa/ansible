@@ -36,6 +36,7 @@
       docker_network_info:
         name: "{{ vpn_network }}"
       register: vpnnet_result
+      when: "{{ state }} == started"
 
     - name: connect to starrnet if exists
       community.docker.docker_network:
