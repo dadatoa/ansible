@@ -14,4 +14,6 @@
         volumes:
           - "{{ config_root_dir }}/rclone:/config/rclone"
           - "{{ data_dir }}:/data"
-        command: "{{ cmd }} {{ source }} {{ destination}}"
+        command: rcd --rc-web-gui --rc-addr :5572 --rc-user admin --rc-pass password
+        ports:
+          - "5572:5572"
