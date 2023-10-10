@@ -138,3 +138,10 @@
       
       become: true
       when: ansible_facts['os_family'] == 'Debian'
+
+    - name: install base system on arch family OS
+      block:
+        become: true
+        when: ansible_facts['os_family'] == 'Archlinux'
+        tasks:
+          - name: update and upgrade
