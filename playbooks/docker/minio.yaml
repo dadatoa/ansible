@@ -1,5 +1,13 @@
 - hosts: dockerlab
+  vars_files:
+    - variables/secrets.yaml
   tasks:
+    - name: "create folder minio to bind on container /data if not exists"
+      file:  
+        path: "{{ data_dir }}/minio"
+        state: directory
+        mode: '755'
+
     - name: launch minio container
       docker_container:
         name: minio
@@ -22,5 +30,8 @@
         command:
           - server --console-address ":9000" /data
 
-
-
+    - name: setup S3 scaleway alias 
+      docker_container_exec:
+        container: minio
+        command:
+          - "mc alias set scaleway {{ scw_access }} {{ scw_secret }}" 
