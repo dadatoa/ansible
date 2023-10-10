@@ -18,5 +18,5 @@
         volumes:
           - "{{ data_dir }}/scw:/data"
         command:
-          - "mc alias set scw {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}"
-          - "mc ls scw"
+          - "alias set scw {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}"
+          - "ls scw"
