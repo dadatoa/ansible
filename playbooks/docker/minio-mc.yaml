@@ -4,7 +4,7 @@
   tasks:
     - name: setup S3 scaleway alias 
       docker_container:
-        name: minio
+        name: minio-mc
         image: minio/mc
         recreate: "{{ recreate }}"
         state: "{{ state }}"
