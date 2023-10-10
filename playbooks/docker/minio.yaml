@@ -31,7 +31,7 @@
           - server --console-address ":9000" /data
 
     - name: setup S3 scaleway alias 
-      docker_container_exec:
+      community.docker.docker_container_exec:
         container: minio
         command:
           - "mc alias set scaleway {{ scw_access }} {{ scw_secret }}" 
