@@ -5,6 +5,6 @@
     - name: s3 ls 
       community.docker.docker_container_exec:
         container: minio
-        command:
+        argv:
           - mc ls scaleway/dadatoa-multimedia/films
           - ls /mnt/scaleway
