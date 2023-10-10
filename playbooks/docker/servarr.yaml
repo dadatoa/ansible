@@ -1,10 +1,6 @@
 ---
 - hosts: dockerlab
   
-  vars_files:
-    - "{{ default_vars }}"
-    - "{{ vars_dir }}/openvpn.yaml"
-
   tasks:
     - name: test network
       docker_network_info:
@@ -37,7 +33,8 @@
           - 51413:51413/udp
           - 9091:9091
         state: "{{ state }}"
-        restart: true
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         restart_policy: unless-stopped
         networks:
           - name: "{{ vpn_network }}" # var vpn_network
@@ -60,7 +57,8 @@
         #   - 51413:51413/udp
         #   - 9091:9091
         restart_policy: unless-stopped
-        restart: true
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         state: "{{ state }}"
         network_mode: "container:gluetun"
 
@@ -78,7 +76,8 @@
         ports:
           - 9696:9696
         restart_policy: unless-stopped
-        restart: true
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         state: "{{ state }}"
         networks:
           - name: "{{ vpn_network }}" # var vpn_network
@@ -97,7 +96,8 @@
         ports:
           - 8989:8989
         restart_policy: unless-stopped
-        restart: true
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         state: "{{ state }}"
         networks:
           - name: "{{ vpn_network }}" # var vpn_network
@@ -116,7 +116,28 @@
         ports:
           - 7878:7878
         restart_policy: unless-stopped
-        restart: true
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
         state: "{{ state }}"
         networks:
           - name: "{{ vpn_network }}" # var vpn_network
+
+    - name: second instance of radarr for french movies
+      docker_container:
+        name: "radarrfr"
+        image: "lscr.io/linuxserver/radarr"
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
+        volumes:
+          - "{{ config_root_dir }}/radarr_fr:/config"
+          - "{{ data_dir }}:/data"
+        ports:
+          - 8787:7878
+        restart_policy: unless-stopped
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
+        state: "{{ state }}"
+        networks:
+          - name: "{{ vpn_network }}"

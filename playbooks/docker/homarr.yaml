@@ -1,7 +1,6 @@
 ---
 - hosts: dockerlab
-  vars_files:
-    - "{{ default_vars }}"
+
   tasks:
     - name: create bind mounts directory first to avoid conflicting permissions
       file:

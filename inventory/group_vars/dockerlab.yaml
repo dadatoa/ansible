@@ -1,2 +1,6 @@
-vars_dir: "variables"
-default_vars: "variables/docker-vars.yaml"
+ansible_network: "ansiblenet"
+puid: "1001"
+pgid: "1001"
+timezone: "Asia/Bangkok"
+config_root_dir: "~/AppData"
+

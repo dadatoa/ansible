@@ -1,0 +1,8 @@
+- hosts: dockerlab
+  vars_files:
+    - variables/secrets.yaml
+  tasks:
+    - name: s3 ls 
+      community.docker.docker_container_exec:
+        container: minio
+        command: mc mirror scaleway/dadatoa-multimedia/films /mnt/scaleway
