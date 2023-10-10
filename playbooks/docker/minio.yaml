@@ -27,10 +27,10 @@
           MINIO_ROOT_PASSWORD: password
         volumes:
           - "{{ data_dir }}/minio:/data"
+          - "{{ data_dir }}/scw:/mnt/scaleway"
         command: server /data --console-address ":9090"
 
     - name: setup S3 scaleway alias 
       community.docker.docker_container_exec:
         container: minio
-        command:
-          - "mc alias set scaleway {{ scw_access }} {{ scw_secret }}" 
+        command: "mc alias set scaleway {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}" 
