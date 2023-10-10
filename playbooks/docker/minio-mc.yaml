@@ -3,6 +3,20 @@
     - variables/secrets.yaml
   tasks:
     - name: setup S3 scaleway alias 
-      community.docker.docker_container_exec:
-        container: minio
-        command: "mc mirror scaleway/dadatoa-multimedia/films /mnt/scaleway" 
+      docker_container:
+        name: minio
+        image: minio/mc
+        recreate: "{{ recreate }}"
+        state: "{{ state }}"
+        restart: "{{ restart }}"
+        env:
+          TZ: "{{ timezone }}"
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          MINIO_ROOT_USER: admin
+          MINIO_ROOT_PASSWORD: password
+        volumes:
+          - "{{ data_dir }}/scw:/data"
+        command:
+          - "mc alias set scw {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}"
+          - "mc ls scw"
