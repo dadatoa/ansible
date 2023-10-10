@@ -5,4 +5,4 @@
     - name: setup S3 scaleway alias 
       community.docker.docker_container_exec:
         container: minio
-        command: mc alias set scaleway "{{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}" 
+        command: "mc alias set scaleway {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}" 
