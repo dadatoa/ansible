@@ -1,0 +1,26 @@
+- hosts: dockerlab
+  tasks:
+    - name: launch minio container
+      docker_container:
+        name: minio
+        image: minio/minio
+        recreate: "{{ recreate }}"
+        state: "{{ state }}"
+        restart: "{{ restart }}"
+        restart_policy: "unless-stopped"
+        ports:
+          - 9090:9090
+          - 9000:9000
+        env:
+          TZ: "{{ timezone }}"
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          MINIO_ROOT_USER: admin
+          MINIO_ROOT_PASSWORD: password
+        volumes:
+          - "{{ data_dir }}/minio:/data"
+        command:
+          - server --console-address ":9000" /data
+
+
+
