@@ -2,21 +2,9 @@
   vars_files:
     - variables/secrets.yaml
   tasks:
-    - name: setup S3 scaleway alias 
-      docker_container:
-        name: minio-mc
-        image: minio/mc
-        recreate: "{{ recreate }}"
-        state: "{{ state }}"
-        restart: "{{ restart }}"
-        env:
-          TZ: "{{ timezone }}"
-          PUID: "{{ puid }}"
-          PGID: "{{ pgid }}"
-          MINIO_ROOT_USER: admin
-          MINIO_ROOT_PASSWORD: password
-        volumes:
-          - "{{ data_dir }}/scw:/data"
+    - name: s3 ls 
+      community.docker.docker_container_exec:
+        container: minio
         command:
-          - "alias set scw {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}"
-          - "ls scw"
+          - mc ls scaleway/dadatoa-multimedia/films
+          - ls /mnt/scaleway
