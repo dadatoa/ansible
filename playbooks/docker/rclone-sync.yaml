@@ -1,7 +1,8 @@
 - hosts: dockerlab
   tasks:
-    - name: Run a simple command (command)
+    - name: Run sync command between media and onedrive
       community.docker.docker_container_exec:
         container: rclone
-        command: rclone sync scaleway:dadatoa-multimedia/films /data/scw
+        detach: true
+        command: rclone sync /data/media onedrive:media
 
