@@ -1,0 +1,26 @@
+- hosts: dockerlab
+  tasks:
+    - name: test if rclone is installed
+      ansible.builtin.package:
+        name: rclone
+        state: present
+      check_mode: true
+      register: rclone_check
+
+    - name: error message if no rclone installed
+      fail:
+        msg: "rclone is not installed"
+      when: rclone_check is failed
+
+    - name: check if config file is present
+      stat:
+        path: ~/.config/rclone/rclone.conf
+      register: stat_rclone
+
+    - name: error message if no config file
+      fail:
+        msg: "no rclone config file found ~/.config/rclone/rclone.conf"
+      when: stat_rclone is failed
+
+    - name: "start sync from {{ source }} to {{ destination }} with rclone"
+      ansible.builtin.command: "rclone sync -p {{ source }} {{ destination }}" 

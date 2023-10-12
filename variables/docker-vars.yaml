@@ -1,0 +1,15 @@
+# General
+puid: "502"
+pgid: "20"
+timezone: "Asia/Bangkok"
+config_root_dir: "~/projects/docker/"
+data_dir: "~/projects/docker/DATA/"
+state: "started"
+recreate: false
+
+# playbooks networks
+vpn_network: "starr-net"
+dash_network: "dash-net"
+loki_network: "loki-net"
+ansible_network: "ansible-net"
+

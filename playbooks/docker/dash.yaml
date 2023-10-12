@@ -1,0 +1,32 @@
+---
+- hosts: dockerlab
+  tasks:
+    - name: "test if dash.net alreadyexists"
+      docker_network_info:
+        name: "{{ dash_network }}"
+      register: dashnet_result
+
+    - name: "create dash.net network if not exists"
+      docker_network:
+        name: "{{ dash_network }}"
+      when: dashnet_result.exists == false
+
+    - name: "deploy dash. container"
+      docker_container:
+        name: "dashdot"
+        image: "mauricenino/dashdot:latest"
+        restart: true
+        restart_policy: "unless-stopped"
+        ports:
+          - 3001:3001
+        volumes:
+          - "/:/mnt/host:ro"
+        networks:
+          - name: "{{ dash_network }}"
+        state: "{{ state }}"
+        recreate: "{{ recreate }}"
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
+          DASHDOT_USE_NETWORK_INTERFACE: "ens3"

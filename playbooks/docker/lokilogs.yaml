@@ -1,0 +1,40 @@
+--- 
+- hosts: dockerlab
+  
+  tasks:
+    - name: test if loki networks exists
+      docker_network_info:
+        name: "{{ loki_network }}"
+      register: loki_result
+
+    - name: create loki network if not exist
+      docker_network:
+        name: "{{ loki_network }}"
+      when: loki_result.exists == false
+    
+    - name: create promtail folder to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/promtail"
+        state: directory
+        mode: '755'
+
+    - name: deploy promtail for pushing logs
+      docker_container:
+        name: promtail
+        image: "grafana/promtail:2.9.1"
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
+        state: "{{ state }}"
+        recreate: "{{ recreate }}"
+        restart: "{{ restart }}"
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ config_root_dir }}/promtail:/etc/promtail"
+          - "/var/log:/var/log"
+        command: 
+          - "-config.file=/etc/promtail/promtail-config.yaml"
+        networks:
+          - name: "{{ loki_network }}"
+

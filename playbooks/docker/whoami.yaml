@@ -1,0 +1,17 @@
+---
+- hosts: dockerlab
+
+  tasks:
+    - name: deploy whoami container
+      docker_container:
+        name: whoami
+        image: "traefik/whoami"
+        state: "{{ state }}"
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
+        command:
+          - "--port=2001"
+          - "--name=iamfoo"
+        ports:
+          - "2001:2001"
+

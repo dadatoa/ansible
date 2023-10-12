@@ -1,0 +1,66 @@
+---
+- hosts: dockerlab
+
+  tasks:
+    - name: create bind mounts directory first to avoid conflicting permissions
+      file:
+        path: "{{ config_root_dir }}/homarr"
+        state: directory
+        mode: '755'
+
+    - name: create folder for bind mount subdir configs
+      file:
+        path: "{{ config_root_dir }}/homarr/configs"
+        state: directory
+        mode: '755'
+
+    - name: create folder for bind mount subdir icons
+      file:  
+        path: "{{ config_root_dir }}/homarr/icons"
+        state: directory
+        mode: '755'
+
+    - name: deploy homarr dashboard
+      docker_container:
+        name: homarr
+        image: "ghcr.io/ajnart/homarr:latest"
+        restart: true
+        restart_policy: "unless-stopped"
+        ports:
+          - "7575:7575"
+        volumes:
+          - "{{ config_root_dir }}/homarr/configs:/app/data/configs"
+          - "{{ config_root_dir }}/homarr/icons:/app/public/icons"
+          - /var/run/docker.sock:/var/run/docker.sock
+        env:
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          TZ: "{{ timezone }}"
+        state: "{{ state }}"
+        recreate: "{{ recreate }}"
+
+    - name: test if network starrnet exists
+      docker_network_info:
+        name: "{{ vpn_network }}"
+      register: vpnnet_result
+
+    - name: connect to starrnet if exists
+      community.docker.docker_network:
+        name: "{{ vpn_network }}"
+        connected:
+          - homarr
+        appends: true
+      when: vpnnet_result.exists == true
+
+    - name: test if network dash.net exists
+      docker_network_info:
+        name: "{{ dash_network }}"
+      register: dashnet_result
+
+    - name: connect to dashnet if exists
+      community.docker.docker_network:
+        name: "{{ dash_network }}"
+        connected:
+          - homarr
+        appends: true
+      when: dashnet_result.exists == true

@@ -1,0 +1,36 @@
+- hosts: dockerlab
+  vars_files:
+    - variables/secrets.yaml
+  tasks:
+    - name: "create folder minio to bind on container /data if not exists"
+      file:  
+        path: "{{ data_dir }}/minio"
+        state: directory
+        mode: '755'
+
+    - name: launch minio container
+      docker_container:
+        name: minio
+        image: minio/minio
+        recreate: "{{ recreate }}"
+        state: "{{ state }}"
+        restart: "{{ restart }}"
+        restart_policy: "unless-stopped"
+        ports:
+          - 9090:9090
+          - 9000:9000
+        env:
+          TZ: "{{ timezone }}"
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+          MINIO_ROOT_USER: admin
+          MINIO_ROOT_PASSWORD: password
+        volumes:
+          - "{{ data_dir }}/minio:/data"
+          - "{{ data_dir }}/scw:/mnt/scaleway"
+        command: server /data --console-address ":9090"
+
+    - name: setup S3 scaleway alias 
+      community.docker.docker_container_exec:
+        container: minio
+        command: "mc alias set scaleway {{ scw_endpoint }} {{ scw_access }} {{ scw_secret }}" 

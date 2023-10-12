@@ -1,0 +1,8 @@
+- hosts: dockerlab
+  tasks:
+    - name: Run sync command between media and onedrive
+      community.docker.docker_container_exec:
+        container: rclone
+        detach: true
+        command: rclone sync /data/media onedrive:media
+

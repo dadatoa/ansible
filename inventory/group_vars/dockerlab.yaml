@@ -1,6 +1,6 @@
+ansible_network: "ansiblenet"
 puid: "1001"
 pgid: "1001"
 timezone: "Asia/Bangkok"
-config_dir: /AppData
-data_dir: /mnt/bigboy
-vpn_network: transmissionvpn
+config_root_dir: "~/AppData"
+

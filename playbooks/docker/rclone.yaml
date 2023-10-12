@@ -1,0 +1,19 @@
+- hosts: dockerlab
+  tasks:
+    - name: "lauch rclone webui"
+      docker_container:
+        name: rclone
+        image: "rclone/rclone"
+        recreate: "{{ recreate }}"
+        restart: "{{ restart }}"
+        state: "{{ state }}"
+        env: 
+          TZ: "{{ timezone }}"
+          PUID: "{{ puid }}"
+          PGID: "{{ pgid }}"
+        volumes:
+          - "{{ config_root_dir }}/rclone:/config/rclone"
+          - "{{ data_dir }}:/data"
+        command: rcd --rc-web-gui --rc-addr :5572 --rc-user admin --rc-pass password
+        ports:
+          - "5572:5572"

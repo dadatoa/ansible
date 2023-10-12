@@ -1,0 +1,67 @@
+- hosts: localhost
+
+  vars_files:
+    - variables/semaphore.yml
+  
+  tasks:
+    - name: test network
+      docker_network_info:
+        name: ansiblenet
+      register: ansiblenet_result
+
+    - name: create network if not exist
+      docker_network:
+        name: ansiblenet
+      when: ansiblenet_result.exists == false
+    
+    - name: launch mysql in container
+      docker_container:
+        name: "mysql"
+        image: "mysql:8.0"
+        hostname: "mysql"
+        networks:
+          - name: ansiblenet
+        env:
+          PUID: "502"
+          PGID: "20"
+          TZ: "Asia/Bangkok"
+          MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+          MYSQL_DATABASE: "semaphore"
+          MYSQL_USER: "semaphore"
+          MYSQL_PASSWORD: "semaphore"
+        volumes:
+          - "~/projects/docker/mysql:/var/lib/mysql"
+        restart_policy: unless-stopped
+        restart: true
+        recreate: true
+
+    - name: "launch semaphore container"
+      docker_container:
+        name: "semaphore"
+        image: "semaphoreui/semaphore:v2.9.30"
+        ports:
+          - "3000:3000"
+        networks:
+          - name: ansiblenet
+        restart_policy: unless-stopped
+        restart: true
+        recreate: true
+        volumes:
+          - "~/projects/docker/semaphore:/home/semaphore"
+        env:
+          PUID: "502" 
+          PGID: "20"
+          TZ: "Asia/Bangkok"
+          SEMAPHORE_DB_USER: "semaphore"
+          SEMAPHORE_DB_PASS: "semaphore"
+          SEMAPHORE_DB_HOST: "mysql" # for postgres, change to: postgres
+          SEMAPHORE_DB_PORT: "3306" # change to 5432 for postgres
+          SEMAPHORE_DB_DIALECT: "mysql" # for postgres, change to: postgres
+          SEMAPHORE_DB: "semaphore"
+          SEMAPHORE_PLAYBOOK_PATH: "/tmp/semaphore/"
+          SEMAPHORE_ADMIN_PASSWORD: "password"
+          SEMAPHORE_ADMIN_NAME: "admin"
+          SEMAPHORE_ADMIN_EMAIL: "admin@localhost"
+          SEMAPHORE_ADMIN: "admin"
+          SEMAPHORE_ACCESS_KEY_ENCRYPTION: "6Z1AT+4bhFGo+KvrhaWMZ3i6i0sawACMWVsNlih5Vc8="
+
