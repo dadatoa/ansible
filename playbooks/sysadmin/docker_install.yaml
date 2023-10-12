@@ -2,8 +2,21 @@
   become: true
   tasks:
   - name: install docker for debian based system
-    include_role:
-      name: docker
+    block:
+    - name: check if docker is already installed
+      command: dpkg-query -l docker
+      register: docker_check
+        
+    - name: install docker if not installed yet
+      include_role:
+        name: docker
+      when: docker_check is failed
+
+    rescue:
+    - name: install docker whatever si ça merde
+      include_role:
+        name: docker
+    
     when: ansible_facts['os_family'] == 'Debian'
 
   - name: install docker on arch based system
