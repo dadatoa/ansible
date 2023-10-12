@@ -1,0 +1,36 @@
+- hosts: dockerlab
+  become: true
+  tasks:
+  - name: install tailscale on debian based system
+    block:
+    - name: download script to install tailscale
+      ansible.builtin.get_url:
+        url: https://tailscale.com/install.sh
+        dest: /root/tailscale.sh
+        mode: '0755'
+
+    - name: install tailscale with script
+      ansible.builtin.shell: sh /root/tailscale.sh
+
+    - name: remove script after install
+      ansible.builtin.file:
+        path: "/root/tailscale.sh"
+        state: absent
+
+    when: ansible_facts['os_family'] == 'Debian'
+
+  - name: install tailscale on arch linux based system
+    block:
+    - name: pacman tailscale
+      community.general.pacman:
+        name:
+        - tailscale
+
+    - name: start tailscale service
+      ansible.builtin.systemd:
+        name: tailscaled
+        state: started
+        enabled: true
+        masked: no
+
+    when: ansible_facts['os_family'] == 'Archlinux'
