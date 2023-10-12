@@ -5,13 +5,13 @@ controllers:
 
 players:
   hosts:
-    oracle-1.taila7299.ts.net:
+    oracle.taila7299.ts.net:
       ansible_ssh_key: "~/.ssh/ansible"
       ansible_user: ubuntu
 
 storage:
   hosts: 
-    oracle-1.taila7299.ts.net:
+    oracle.taila7299.ts.net:
       ansible_ssh_key: "~/.ssh/ansible"
       ansible_user: ubuntu
 
