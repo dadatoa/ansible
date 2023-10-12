@@ -3,7 +3,7 @@
   tasks:
   - name: install tailscale on debian based system
     block:
-    - name: check if tailscale already installed:
+    - name: check if tailscale already installed
       command: dpkg-query -l tailscale
       register: tailscale_check
 
