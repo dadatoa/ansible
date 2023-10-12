@@ -1,0 +1,14 @@
+---
+- name: download tailscale install script
+  get-url:
+    url: https://tailscale.com/install.sh
+    dest: /root/tailscale.sh
+    mode: 0755
+
+- name: execute tailscale install script
+  shell: sh /root/tailscale.sh
+
+- name: remove tailscale install script 
+  file: 
+    path: "/root/tailscale.sh"
+    state: absent
