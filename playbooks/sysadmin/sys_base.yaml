@@ -2,7 +2,6 @@
 - hosts: dockerlab
   
   tasks:
-<<<<<<< HEAD
   - name: install base server system for debian family os 
     block:
     - name: remove conflicting file to avoid ansible crash
