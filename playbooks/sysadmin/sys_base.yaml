@@ -45,51 +45,33 @@
         - slirp4netns
         update_cache: yes
         cache_valid_time: 3600
-
-        - name: test if docker is already installed
-          ansible.builtin.package:
-            name: docker
-            state: present
-          check_mode: true
-          register: docker_check
-
-        - name: test if tailscale is already installed
-          ansible.builtin.package:
-            name: tailscale
-            state: present
-          check_mode: true
-          register: tailscale_check
-
-        - name: Remove dependencies no longer required after boot
-          ansible.builtin.apt:
-            autoremove: yes
       
     become: true
     when: ansible_facts['os_family'] == 'Debian'
 
   - name: install base system on arch family OS
     block:
-      tasks:
-      - name: update and upgrade
-        community.general.pacman:
-          update_cache: true
-          upgrade: true
+    - name: update and upgrade
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
 
-      - name: install base packages
-        community.general.pacman:
-          name:
-            - neovim
-            - wget
-            - curl
-            - openssh
-            - python3
-            - git
-            - sudo
-            - rclone
-            - ufw
-            - slirp4netns
-            - fuse-overlayfs
+    - name: install base packages
+      community.general.pacman:
+        name:
+        - neovim
+        - wget
+        - curl
+        - openssh
+        - python3
+        - git
+        - sudo
+        - rclone
+        - ufw
+        - slirp4netns
+        - fuse-overlayfs
+        update_cache: yes
 
-        
     become: true
     when: ansible_facts['os_family'] == 'Archlinux'
+
