@@ -12,3 +12,11 @@
       - docker
       update_cache: yes
     when: ansible_facts['os_family'] == 'Archlinux'
+
+  - name: enable and start docker service
+    ansible.builtin.systemd:
+      name: docker
+      state: started
+      enabled: true
+      masked: false
+
