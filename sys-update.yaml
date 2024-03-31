@@ -7,8 +7,14 @@
         update_cache: yes
         upgrade: yes
       when: ansible_facts['os_family'] == 'Archlinux'
+      register: result
+
+    - name: Print return information from the previous task
+      ansible.builtin.debug:
+        msg: "{{result.stdout}}"
+        
     - name: Update all packages
-      community.general.apt:
+      ansible.builtin.apt:
         update_cache: yes
         upgrade: yes
       when: ansible_facts['os_family'] == 'Debian'
