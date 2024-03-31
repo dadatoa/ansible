@@ -1,0 +1,13 @@
+[dockerlab]
+127.0.0.1
+
+[dockerlab:vars]
+restart=true
+recreate=true
+state=started
+vpn_network=vpn_net
+puid=502
+pgid=20
+config_root_dir="~/projects/docker"
+data_dir="/Volumes/T7"
+

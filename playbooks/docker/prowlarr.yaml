@@ -1,0 +1,33 @@
+---
+- hosts: dockerlab
+  
+  tasks:
+    - name: test network
+      docker_network_info:
+        name: "{{ vpn_network }}"
+      register: vpnnet_result
+
+    - name: create network if not exist
+      docker_network:
+        name: "{{ vpn_network }}"
+      when: vpnnet_result.exists == false
+
+    - name: start prowlarr container
+      docker_container:
+        name: prowlarr
+        image: "lscr.io/linuxserver/prowlarr:latest"
+        env:
+          PUID: "{{ puid }}" # var puid
+          PGID: "{{ pgid }}" # var pgid
+          TZ: "{{ timezone }}" # var timezone
+        volumes:
+          - "{{ config_root_dir }}/prowlarr:/config" # var config_dir
+          - "{{ data_dir }}:/data" # vars data_dir
+        ports:
+          - 9696:9696
+        restart_policy: unless-stopped
+        restart: "{{ restart }}"
+        recreate: "{{ recreate }}"
+        state: "{{ state }}"
+        networks:
+          - name: "{{ vpn_network }}" # var vpn_network
