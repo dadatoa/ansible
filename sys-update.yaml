@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  tasks: 
+    - name: Update all packages
+      community.general.pacman:
+        update_cache: yes
+        upgrade: yes
+      when: ansible_facts['os_family'] == 'Archlinux'
+
+    - name: Print return information from the previous task
+      ansible.builtin.debug:
+        var: result
+        verbosity: 2 

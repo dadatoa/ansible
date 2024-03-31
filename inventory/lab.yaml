@@ -1,0 +1,11 @@
+controllers:
+  hosts:
+    # amaz-1.taila7299.ts.net:
+    #  ansible_ssh_key: "~/.ssh/dadabook-air.pem"
+
+homelab:
+  hosts:
+    nara970.taila7299.ts.net:
+      ansible_ssh_key: "~/.ssh/ansible"
+      ansible_user: controller
+
