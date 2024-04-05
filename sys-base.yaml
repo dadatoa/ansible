@@ -1,5 +1,5 @@
 ---
-- hosts: dockerlab
+- hosts: all
   
   tasks:
   - name: install base server system for debian family os 
